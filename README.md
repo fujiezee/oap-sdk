@@ -83,7 +83,7 @@ bash install.sh
 ```bash
 pipx install .
 # 或从 GitHub
-pipx install git+https://github.com/oap-org/oap.git
+pipx install git+https://github.com/fujiezee/oap-sdk.git
 ```
 
 **方式三：pip**
@@ -95,7 +95,7 @@ pip install -e .
 **方式四：npx 风格（一次性运行）**
 
 ```bash
-pipx run --spec . oap --help
+pipx run --spec git+https://github.com/fujiezee/oap-sdk.git oap --help
 ```
 
 ### 创建分身

@@ -106,8 +106,8 @@ else
     pipx install oap-sdk --force 2>/dev/null || {
         # PyPI 还没有，尝试从 GitHub 安装
         warn "PyPI 上暂无 oap-sdk，尝试从 GitHub 安装..."
-        pipx install --force "git+https://github.com/oap/oap-sdk.git" 2>/dev/null || {
-            error "安装失败。请手动安装：\n  pipx install git+https://github.com/oap/oap-sdk.git"
+        pipx install --force "git+https://github.com/fujiezee/oap-sdk.git" 2>/dev/null || {
+            error "安装失败。请手动安装：\n  pipx install git+https://github.com/fujiezee/oap-sdk.git"
         }
     }
 fi
