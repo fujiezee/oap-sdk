@@ -236,6 +236,9 @@ class MemoryStore:
             blob = json.load(f)
         plaintext = self._kr.decrypt(blob)
         data = json.loads(plaintext)
+        # 反序列化枚举字段
+        if "type" in data and isinstance(data["type"], str):
+            data["type"] = MemoryType(data["type"])
         return MemoryEntry(**data)
 
     def _load_index(self):

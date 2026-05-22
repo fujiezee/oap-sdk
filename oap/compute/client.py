@@ -350,7 +350,7 @@ class ComputeClient:
         memories = extra_entries or self.memory.recent(10)
         if memories:
             mem_text = "\n".join(
-                f"[{m.type.value}@{time.strftime('%m-%d %H:%M', time.localtime(m.timestamp))}] {m.content[:200]}"
+                f"[{m.type.value if hasattr(m.type, 'value') else m.type}@{time.strftime('%m-%d %H:%M', time.localtime(m.timestamp))}] {m.content[:200]}"
                 for m in memories[-5:]  # 最近 5 条
             )
             parts.append(f"### 近期记忆\n{mem_text}")
