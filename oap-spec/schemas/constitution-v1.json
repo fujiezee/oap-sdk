@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oap.dev/schemas/constitution-v1.json",
+  "title": "OAP Constitution",
+  "description": "Open Avatar Protocol - 分身宪法格式",
+  "type": "object",
+  "required": ["format", "avatarDID", "version", "rules"],
+  "properties": {
+    "format": {
+      "type": "string",
+      "const": "oap-constitution-v1"
+    },
+    "avatarDID": {
+      "type": "string",
+      "pattern": "^did:oap:"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastModified": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "priority", "type", "scope", "condition", "enforcement"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^rule-\\d{3}$"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "优先级，数值越高越优先执行"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["prohibition", "obligation", "permission"]
+          },
+          "scope": {
+            "type": "string",
+            "description": "规则适用范围表达式"
+          },
+          "condition": {
+            "type": "string",
+            "description": "触发条件表达式"
+          },
+          "enforcement": {
+            "type": "string",
+            "enum": ["block", "require-owner-confirmation", "log-and-report", "warn-and-continue"]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "emergencyStop": {
+      "type": "object",
+      "required": ["enabled", "action"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

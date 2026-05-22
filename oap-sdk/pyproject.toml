@@ -1,0 +1,54 @@
+[project]
+name = "oap-sdk"
+version = "0.1.0"
+description = "Open Avatar Protocol SDK - 数字分身去中心化开发工具包"
+readme = "README.rst"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+
+dependencies = [
+    "cryptography>=41.0.0",
+    "pydantic>=2.5.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "httpx>=0.26.0",
+    "aiofiles>=23.0.0",
+    "anyio>=4.0.0",
+]
+
+[project.optional-dependencies]
+train = [
+    "torch>=2.1.0",
+    "transformers>=4.36.0",
+    "peft>=0.7.0",
+    "datasets>=2.14.0",
+    "trl>=0.7.0",
+    "accelerate>=0.24.0",
+    "bitsandbytes>=0.41.0",
+    "safetensors>=0.4.0",
+]
+ipfs = ["ipfshttpclient>=0.8.0a2"]
+web3 = ["web3>=6.0.0"]
+all = ["oap-sdk[train,ipfs,web3]"]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+oap = "oap.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

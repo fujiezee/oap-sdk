@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oap.dev/schemas/memory-v1.json",
+  "title": "OAP Memory Entry",
+  "description": "Open Avatar Protocol - 记忆条目格式",
+  "type": "object",
+  "required": ["id", "timestamp", "type", "modality", "content", "metadata"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^mem_0x[0-9a-f]+$",
+      "description": "记忆唯一标识符"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "时间戳"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["conversation", "action", "observation", "reflection", "dream"],
+      "description": "记忆类型"
+    },
+    "modality": {
+      "type": "string",
+      "enum": ["text", "image", "audio", "video", "structured"],
+      "description": "模态"
+    },
+    "content": {
+      "type": "object",
+      "required": ["encrypted", "iv", "tag"],
+      "properties": {
+        "encrypted": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "AES-256-GCM 加密后的内容"
+        },
+        "iv": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "初始化向量"
+        },
+        "tag": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "认证标签"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["owner-input", "avatar-observation", "avatar-reflection", "external-interaction"]
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^did:oap:"
+          }
+        },
+        "emotionalValence": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "importance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "accessControl": {
+      "type": "object",
+      "required": ["level"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["private", "shared-with-consent", "public-anonymized"]
+        },
+        "consentTokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

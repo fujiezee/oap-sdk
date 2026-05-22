@@ -1,0 +1,31 @@
+[project]
+name = "oap-lora-framework"
+version = "0.1.0"
+description = "Open Avatar Protocol - 本地个人化 LoRA 训练框架"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.36.0",
+    "peft>=0.7.0",
+    "datasets>=2.14.0",
+    "accelerate>=0.24.0",
+    "bitsandbytes>=0.41.0",
+    "safetensors>=0.4.0",
+    "cryptography>=41.0.0",
+    "pydantic>=2.5.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+apple = ["mlx>=0.1.0", "mlx-lm>=0.0.10"]
+quantize = ["auto-gptq>=0.7.0", "optimum>=1.16.0"]
+
+[project.scripts]
+oap-train = "oap_lora.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"

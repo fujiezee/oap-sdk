@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OAP runtime data
+.oap/
+
+# Temp demo data
+/tmp/
+
+# Node.js (compute-layer)
+compute-layer/node_modules/
+compute-layer/cache/
+compute-layer/artifacts/
+compute-layer/typechain-types/
+
+# Environment
+.env
+.env.local
