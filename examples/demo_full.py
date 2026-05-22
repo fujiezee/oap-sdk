@@ -24,7 +24,7 @@ import time
 from pathlib import Path
 
 # 确保 SDK 在 Python 路径中
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 from oap import Avatar
 from oap.compute.client import InferenceMode

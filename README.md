@@ -26,24 +26,23 @@ OAP（Open Avatar Protocol）是一套去中心化数字分身的完整基础设
 
 ```
 center/
+├── oap/                        # SDK 核心包
+│   ├── avatar/core.py          # Avatar 分身生命周期
+│   ├── memory/store.py         # 加密记忆存储（热/温/冷）
+│   ├── crypto/keyring.py       # KeyRing 五类密钥派生
+│   ├── compute/client.py       # 推理客户端（EXTERNAL/LOCAL/REMOTE/MOCK）
+│   ├── network/peer.py         # 去中心化网络客户端
+│   └── cli.py                  # 命令行工具
+├── examples/
+│   ├── demo_full.py            # 端到端 Demo（Mock 推理）
+│   ├── demo_external.py        # 外部推理 Demo（OpenAI/Claude/DeepSeek/Ollama）
+│   ├── demo_network.py         # 双分身网络通信 Demo
+│   └── demo_decentralized.py   # 去中心化联邦 Demo
+├── install.sh                  # 一键安装脚本
+├── pyproject.toml
 ├── oap-spec/                    # 协议规范
-│   ├── OAP_PROTOCOL.md         # 7 层协议（身份/数据/模型/宪法/交互/加密/可验证推理）
-│   └── schemas/                # JSON Schema（memory-v1, constitution-v1）
-├── oap-sdk/                    # 可安装 SDK
-│   ├── oap/
-│   │   ├── avatar/core.py      # Avatar 分身生命周期
-│   │   ├── memory/store.py     # 加密记忆存储（热/温/冷）
-│   │   ├── crypto/keyring.py   # KeyRing 五类密钥派生
-│   │   ├── compute/client.py   # 推理客户端（EXTERNAL/LOCAL/REMOTE/MOCK）
-│   │   ├── network/peer.py     # 去中心化网络客户端
-│   │   └── cli.py              # 命令行工具
-│   ├── examples/
-│   │   ├── demo_full.py        # 端到端 Demo（Mock 推理）
-│   │   ├── demo_external.py    # 外部推理 Demo（OpenAI/Claude/DeepSeek/Ollama）
-│   │   ├── demo_network.py     # 双分身网络通信 Demo
-│   │   └── demo_decentralized.py # 去中心化联邦 Demo
-│   ├── install.sh              # 一键安装脚本
-│   └── pyproject.toml
+│   ├── OAP_PROTOCOL.md         # 7 层协议
+│   └── schemas/                # JSON Schema
 ├── oap-relay/                  # 去中心化中继
 │   ├── federated_relay.py      # 联邦中继（Gossip + 路由）
 │   ├── relay_server.py         # 单节点中继
@@ -81,14 +80,14 @@ bash install.sh
 **方式二：pipx（推荐，隔离环境）**
 
 ```bash
-pipx install .
-# 或从 GitHub
 pipx install git+https://github.com/fujiezee/oap-sdk.git
 ```
 
 **方式三：pip**
 
 ```bash
+git clone https://github.com/fujiezee/oap-sdk.git
+cd oap-sdk
 pip install -e .
 ```
 

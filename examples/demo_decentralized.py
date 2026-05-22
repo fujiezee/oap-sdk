@@ -23,7 +23,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 from oap import Avatar
 from oap.compute.client import InferenceMode
@@ -40,7 +40,7 @@ async def run_decentralized_demo():
     print("\n▸ 启动联邦 Relay 节点...")
 
     # 导入联邦中继
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent / "oap-relay"))
+    sys.path.insert(0, str(Path(__file__).parent.parent / "oap-relay"))
     from federated_relay import FederatedRelay
 
     relay1 = FederatedRelay(relay_id="relay-alpha", port=8765)
