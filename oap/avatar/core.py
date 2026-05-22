@@ -186,11 +186,12 @@ class Avatar:
         cls,
         avatar_dir: str,
         mnemonic: str,
+        api_key: str = "",
     ) -> "Avatar":
         """
         从已有分身目录 + 助记词加载分身。
 
-        avatar_dir 中必须有 config.enc.json 文件。
+        api_key: 外部推理的 API Key（不持久化，需每次传入）
         """
         avatar_dir = Path(avatar_dir).expanduser()
         config_path = avatar_dir / "config.enc.json"
@@ -198,12 +199,9 @@ class Avatar:
         if not config_path.exists():
             raise FileNotFoundError(f"找不到分身配置文件: {config_path}")
 
-        # 读取加密配置（需要助记词才能解密）
         with open(config_path, encoding="utf-8") as f:
             blob = json.load(f)
 
-        # 用助记词派生临时密钥环解密配置
-        # 配置中的 avatar_did 用特殊方式存储（明文，因为 DID 本身是公开的）
         avatar_did_hint = blob.get("_did_hint", "")
         if not avatar_did_hint:
             avatar_did_hint = KeyRing.did_from_mnemonic(mnemonic)
@@ -212,10 +210,11 @@ class Avatar:
         config_bytes = key_ring.decrypt(blob["config"])
         config = AvatarConfig.from_dict(json.loads(config_bytes))
 
-        # 重建正式密钥环（用配置中的 DID）
         key_ring = KeyRing.from_mnemonic(mnemonic, config.avatar_did)
 
         avatar = cls(config, key_ring)
+        # 注入 API Key（从参数或环境变量）
+        avatar._api_key = api_key or os.environ.get("OPENAI_API_KEY", "") or os.environ.get("ANTHROPIC_API_KEY", "")
         await avatar._init_subsystems()
         return avatar
 

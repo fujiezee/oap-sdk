@@ -122,7 +122,7 @@ def _resolve_mode(mode_str: str):
 # ── CLI 主入口 ────────────────────────────────────────────
 
 @click.group()
-@click.version_option(version="0.2.0", prog_name="oap")
+@click.version_option(version="0.2.1", prog_name="oap")
 def main():
     """OAP — 数字分身命令行工具"""
     pass
@@ -333,9 +333,12 @@ def chat(message, avatar_dir, mnemonic):
 
     from oap import Avatar
 
+    # 获取 API Key（从 config 或环境变量）
+    api_key, _ = _detect_api_key()
+
     with console.status("[bold green]加载分身...[/bold green]"):
         try:
-            avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip()))
+            avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip(), api_key=api_key))
         except Exception as e:
             console.print(f"[red]加载失败: {e}[/red]")
             return
@@ -465,7 +468,7 @@ def reflect(avatar_dir, mnemonic):
         mnemonic = console.input("  助记词: ", password=True)
 
     from oap import Avatar
-    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip()))
+    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip(), api_key=_detect_api_key()[0]))
     with console.status("[bold]反思中...[/bold]"):
         result = asyncio.run(avatar.reflect())
     asyncio.run(avatar.save())
@@ -490,7 +493,7 @@ def forget(avatar_dir, mnemonic, before, memory_id):
         mnemonic = console.input("  助记词: ", password=True)
 
     from oap import Avatar
-    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip()))
+    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip(), api_key=_detect_api_key()[0]))
 
     if not Confirm.ask("[bold red]⚠ 遗忘不可逆，确认？[/bold red]", default=False):
         return
@@ -524,7 +527,7 @@ def freeze(avatar_dir, mnemonic):
         mnemonic = console.input("  助记词: ", password=True)
 
     from oap import Avatar
-    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip()))
+    avatar = asyncio.run(Avatar.load(target_dir, mnemonic.strip(), api_key=_detect_api_key()[0]))
     avatar.emergency_freeze()
     asyncio.run(avatar.save())
     console.print("[bold red]⚠ 分身已冻结[/bold red]")
