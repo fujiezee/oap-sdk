@@ -187,11 +187,16 @@ class Avatar:
         avatar_dir: str,
         mnemonic: str,
         api_key: str = "",
+        # 以下参数可覆盖分身保存的配置（全局 config 优先）
+        api_base: str = "",
+        api_type: str = "",
+        model: str = "",
     ) -> "Avatar":
         """
         从已有分身目录 + 助记词加载分身。
 
-        api_key: 外部推理的 API Key（不持久化，需每次传入）
+        api_key/api_base/api_type/model 可覆盖分身保存的旧配置。
+        这让 oap config set 的值始终生效，无需重建分身。
         """
         avatar_dir = Path(avatar_dir).expanduser()
         config_path = avatar_dir / "config.enc.json"
@@ -215,6 +220,15 @@ class Avatar:
         avatar = cls(config, key_ring)
         # 注入 API Key（从参数或环境变量）
         avatar._api_key = api_key or os.environ.get("OPENAI_API_KEY", "") or os.environ.get("ANTHROPIC_API_KEY", "")
+
+        # 全局 config 优先覆盖分身保存的旧值（必须在 _init_subsystems 之前！））
+        if api_base:
+            avatar.config.api_base = api_base
+        if api_type:
+            avatar.config.api_type = api_type
+        if model:
+            avatar.config.model = model
+
         await avatar._init_subsystems()
         return avatar
 
