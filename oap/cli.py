@@ -122,7 +122,7 @@ def _resolve_mode(mode_str: str):
 # ── CLI 主入口 ────────────────────────────────────────────
 
 @click.group()
-@click.version_option(version="0.1.0", prog_name="oap")
+@click.version_option(version="0.2.0", prog_name="oap")
 def main():
     """OAP — 数字分身命令行工具"""
     pass
